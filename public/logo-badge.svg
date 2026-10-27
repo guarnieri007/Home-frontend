@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Caderno — logo (badge)">
+  <title>Caderno — logo (badge)</title>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#1a1a24"/>
+    <path d="M 137.27 99.47 C 164.00 65.65 209.95 63.97 212.88 46.03 C 160.83 37.79 121.94 70.32 118.73 99.47 Q 128.00 104.00 137.27 99.47 Z" fill="#00A4EF"/>
+    <path d="M 158.00 128.00 C 198.43 142.97 214.22 186.16 232.19 183.40 C 223.94 131.35 180.99 104.41 152.27 110.37 Q 150.83 120.58 158.00 128.00 Z" fill="#7FBA00"/>
+    <path d="M 137.27 156.53 C 135.53 199.61 99.33 227.97 107.51 244.21 C 154.46 220.28 166.81 171.10 152.27 145.63 Q 142.11 147.42 137.27 156.53 Z" fill="#FFB900"/>
+    <path d="M 103.73 145.63 C 62.22 157.29 24.06 131.63 11.15 144.42 C 48.41 181.68 99.00 178.23 118.73 156.53 Q 113.89 147.42 103.73 145.63 Z" fill="#F25022"/>
+    <path d="M 103.73 110.37 C 79.82 74.49 92.43 30.27 76.27 21.94 C 52.35 68.90 71.27 115.94 98.00 128.00 Q 105.17 120.58 103.73 110.37 Z" fill="#E3008C"/>
+    <g transform="rotate(-7 128 128)">
+    <rect x="103.0" y="98.0" width="50.0" height="60.0" rx="7.0" fill="#ffffff" stroke="#e3e3ea" stroke-width="1.2"/>
+    <path d="M 103.0 105.0 Q 103.0 98.0 110.0 98.0 L 146.0 98.0 Q 153.0 98.0 153.0 105.0 L 153.0 111.0 L 103.0 111.0 Z" fill="#2b2b38"/>
+    <rect x="110.6" y="95.0" width="4.8" height="15.0" rx="2.4" fill="#ffffff" stroke="#2b2b38" stroke-width="1.6"/>
+    <rect x="120.6" y="95.0" width="4.8" height="15.0" rx="2.4" fill="#ffffff" stroke="#2b2b38" stroke-width="1.6"/>
+    <rect x="130.6" y="95.0" width="4.8" height="15.0" rx="2.4" fill="#ffffff" stroke="#2b2b38" stroke-width="1.6"/>
+    <rect x="140.6" y="95.0" width="4.8" height="15.0" rx="2.4" fill="#ffffff" stroke="#2b2b38" stroke-width="1.6"/>
+    <rect x="111.0" y="122.0" width="34.0" height="3.2" rx="1.6" fill="#2b2b38"/>
+    <rect x="111.0" y="131.5" width="34.0" height="3.2" rx="1.6" fill="#2b2b38"/>
+    <rect x="111.0" y="141.0" width="22.0" height="3.2" rx="1.6" fill="#2b2b38"/>
+    </g>
+</svg>
