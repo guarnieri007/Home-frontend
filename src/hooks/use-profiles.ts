@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/auth-context'
 import { api, type Profile } from '../services/api'
 
-const SELECTED_KEY = 'firehome:perfil_selecionado'
+const SELECTED_KEY = 'home:perfil_selecionado'
 
 const lerSelecionado = () => {
     try { return Number(localStorage.getItem(SELECTED_KEY)) || null } catch { return null }

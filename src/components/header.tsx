@@ -29,7 +29,7 @@ const Header = ({ onAbrirMenu }: HeaderProps) => {
                 <span className="header-marca">
                     {/* Decorativo: o nome ao lado já identifica a marca */}
                     <img src="/logo.svg" alt="" className="header-logo" width="28" height="28" />
-                    FireHome
+                    Home
                 </span>
             </div>
 

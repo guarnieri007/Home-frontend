@@ -1,5 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3333'
-const REFRESH_KEY = 'firehome:refresh_token'
+const REFRESH_KEY = 'home:refresh_token'
 
 export interface ApiErrorDetail {
     field: string
