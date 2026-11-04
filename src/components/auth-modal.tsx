@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from "react"
 import { useAuth } from "../auth/auth-context"
 import { ApiError } from "../services/api"
 
-type Modo = 'login' | 'cadastro'
+type Modo = 'login' | 'cadastro' | 'esqueci-senha'
 type Campo = 'nm_user' | 'email' | 'password'
 
 interface AuthModalProps {
@@ -25,7 +25,7 @@ const mensagensErro: Record<string, string> = {
 
 const AuthModal = ({ onClose }: AuthModalProps) => {
     const dialogRef = useRef<HTMLDialogElement>(null)
-    const { login, register } = useAuth()
+    const { login, register, esqueciSenha } = useAuth()
     const id = useId()
 
     const [modo, setModo] = useState<Modo>('login')
@@ -55,6 +55,7 @@ const AuthModal = ({ onClose }: AuthModalProps) => {
         setErro(null)
         setErrosCampo({})
         try {
+            if(modo === 'esqueci-senha') {await esqueciSenha(form.email); fechar(); return}
             if (modo === 'login') await login(form.email, form.password)
             else await register(form)
             fechar()
@@ -92,7 +93,7 @@ const AuthModal = ({ onClose }: AuthModalProps) => {
     const erroCampo = (nome: Campo) =>
         errosCampo[nome] && <span id={`${id}-${nome}-erro`} className="auth-campo-erro">{errosCampo[nome]}</span>
 
-    const titulo = modo === 'login' ? 'Entrar' : 'Criar conta'
+    const titulo = modo === 'login' ? 'Entrar' : modo === 'esqueci-senha' ? 'Redefinir senha' : 'Criar conta'
 
     return (
         <dialog
@@ -131,6 +132,8 @@ const AuthModal = ({ onClose }: AuthModalProps) => {
                     {erroCampo('email')}
                 </label>
 
+                {(modo === 'cadastro' || modo === 'login') && (
+
                 <label htmlFor={`${id}-password`}>
                     Senha
                     <input
@@ -144,19 +147,28 @@ const AuthModal = ({ onClose }: AuthModalProps) => {
                     {modo === 'cadastro' && !errosCampo.password && <small id={`${id}-password-dica`}>Mínimo de 8 caracteres</small>}
                     {erroCampo('password')}
                 </label>
+                )}
 
                 {erro && <p className="auth-erro" role="alert">{erro}</p>}
 
                 <button type="submit" className="auth-enviar" disabled={enviando} aria-busy={enviando}>
                     {enviando ? 'Aguarde…' : titulo}
                 </button>
-
+                
                 <p className="auth-alternar">
                     {modo === 'login' ? 'Ainda não tem conta?' : 'Já tem conta?'}{' '}
                     <button type="button" onClick={() => trocarModo(modo === 'login' ? 'cadastro' : 'login')}>
                         {modo === 'login' ? 'Criar usuário' : 'Entrar'}
                     </button>
                 </p>
+                {modo !== 'esqueci-senha' && (
+                    <p className="auth-alternar">
+                        Esqueceu sua senha?{' '}
+                        <button type="button" onClick={() => trocarModo('esqueci-senha')}>
+                            clique aqui para redefinir
+                        </button>
+                    </p>
+                )}
             </form>
         </dialog>
     )

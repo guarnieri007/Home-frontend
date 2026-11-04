@@ -151,4 +151,8 @@ export const api = {
     updateFavorite: (cd_favorite: number, data: FavoriteUpdate) =>
         authed<Favorite>('PATCH', `/favorites/${cd_favorite}`, data),
     deleteFavorite: (cd_favorite: number) => authed<void>('DELETE', `/favorites/${cd_favorite}`),
+    forgotPassword: (email: string) => send<void>('POST', '/auth/forgot-password', { email }),
+    resetPassword: (token: string, newPassword: string) =>
+        send<void>('POST', '/auth/reset-password', { token, newPassword }),
+    checkResetToken: (token: string) => send<void>('POST', '/auth/check-reset-token', { token }),
 }

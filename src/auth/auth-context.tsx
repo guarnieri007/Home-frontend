@@ -7,6 +7,7 @@ interface AuthContextValue {
     login: (email: string, password: string) => Promise<void>
     register: (data: { nm_user: string; email: string; password: string }) => Promise<void>
     logout: () => Promise<void>
+    esqueciSenha: (email: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -42,8 +43,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (refresh) await api.logout(refresh).catch(() => {})
     }
 
+    const esqueciSenha = async (email: string) => {
+        await api.forgotPassword(email)
+    }
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, esqueciSenha }}>
             {children}
         </AuthContext.Provider>
     )
