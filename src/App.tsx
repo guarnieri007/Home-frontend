@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { useAuth } from './auth/auth-context'
-import { Favoritos, type FavoritoData } from './components/favorito'
+import { type FavoritoData } from './components/favorito'
 import FavoritoModal, { type FavoritoForm } from './components/favorito-modal'
 import Header from './components/header'
 import { IconeMais } from './components/icones'
@@ -10,6 +10,9 @@ import SidebarDrawer from './components/sidebar-drawer'
 import { useMediaQuery } from './hooks/use-media-query'
 import { useProfiles } from './hooks/use-profiles'
 import { api } from './services/api'
+import Home from './pages/home'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import ForgotPassword from './pages/forgot-password'
 
 function App() {
   const { user, loading } = useAuth()
@@ -98,41 +101,6 @@ function App() {
     />
   )
 
-  const conteudo = () => {
-    if (loading) return null
-    if (!user) return <p className="aviso">Entre na sua conta para ver seus favoritos.</p>
-    if (perfis.carregando) return <p className="aviso">Carregando…</p>
-    if (!perfilAtual) return <p className="aviso">Você ainda não tem perfis. Crie um no menu para começar.</p>
-    if (mensagemErroFavoritos) return <p className="aviso aviso-erro" role="alert">{mensagemErroFavoritos}</p>
-    if (!favoritos) return <p className="aviso">Carregando favoritos…</p>
-    if (favoritos.length === 0) {
-      return (
-        <>
-          <p className="aviso">Nenhum favorito em “{perfilAtual.nm_profile}” ainda.</p>
-          {botaoAdicionar}
-        </>
-      )
-    }
-
-    return (
-      <>
-        <div className="favoritos-acoes">
-          {!editing && botaoAdicionar}
-          <button type="button" className="botao-editar" onClick={() => setPerfilEmEdicao(editing ? null : selecionado)}>
-            {editing ? 'Concluído' : 'Editar'}
-          </button>
-        </div>
-        <Favoritos
-          favoritos={favoritos}
-          editing={editing}
-          onReorder={reordenar}
-          onDelete={removerFavorito}
-          onSave={salvarFavorito}
-        />
-      </>
-    )
-  }
-
   return (
     <>
       <Header onAbrirMenu={user && !desktop ? () => setMenuAberto(true) : undefined} />
@@ -146,7 +114,27 @@ function App() {
         <main className="App layout-conteudo">
           <section id="center">
             {perfilAtual && <h1 className="perfil-titulo">{perfilAtual.nm_profile}</h1>}
-            {conteudo()}
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Home
+                  loading={loading}
+                  user={user}
+                  perfis={perfis}
+                  perfilAtual={perfilAtual}
+                  mensagemErroFavoritos={mensagemErroFavoritos}
+                  favoritos={favoritos}
+                  editing={editing}
+                  botaoAdicionar={botaoAdicionar}
+                  reordenar={reordenar}
+                  removerFavorito={removerFavorito}
+                  salvarFavorito={salvarFavorito}
+                  setPerfilEmEdicao={setPerfilEmEdicao}
+                />} />
+
+                <Route path="/redefinir-senha" element={<ForgotPassword />} />
+              </Routes>
+
+            </BrowserRouter>
           </section>
 
           {adicionando && <FavoritoModal onSave={criarFavorito} onClose={() => setAdicionando(false)} />}
