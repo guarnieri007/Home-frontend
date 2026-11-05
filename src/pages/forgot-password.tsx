@@ -67,10 +67,8 @@ const ForgotPassword = () => {
                 <dialog
                     ref={dialogRef}
                     className="auth-modal"
-                    aria-labelledby={`${id}-titulo`}
-                    onClose={onClose}
-                    // Clique fora do formulário (no backdrop) fecha o modal
-                    onClick={(e) => { if (e.target === e.currentTarget) fechar() }}>
+                    aria-labelledby={`Esqueci minha senha-titulo`}
+                    >
 
                     <div className="auth-modal-topo">
                         <form onSubmit={handleSubmit}>
