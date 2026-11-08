@@ -1,5 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3333'
 const REFRESH_KEY = 'home:refresh_token'
+const ACCESS_KEY = 'home:access_token'
+const ACCESS_EXPIRES_KEY = 'home:access_token_expires_at'
 
 export interface ApiErrorDetail {
     field: string
@@ -63,22 +65,45 @@ export interface NewFavorite {
 
 export type FavoriteUpdate = Partial<Pick<Favorite, 'cd_profile' | 'url' | 'descricao' | 'icone'>>
 
-// Access token só em memória; o refresh token fica salvo para manter a sessão ao recarregar
+// O access token fica na sessão da aba para sobreviver a recargas; o refresh token
+// permanece no localStorage para restaurar a sessão entre visitas.
 let accessToken: string | null = null
 
 export const tokenStorage = {
     getRefresh: () => {
         try { return localStorage.getItem(REFRESH_KEY) } catch { return null }
     },
+    getAccess: () => {
+        try {
+            const token = sessionStorage.getItem(ACCESS_KEY)
+            const expiresAt = Number(sessionStorage.getItem(ACCESS_EXPIRES_KEY))
+            if (!token || !Number.isFinite(expiresAt) || expiresAt <= Date.now()) {
+                sessionStorage.removeItem(ACCESS_KEY)
+                sessionStorage.removeItem(ACCESS_EXPIRES_KEY)
+                return null
+            }
+            return token
+        } catch { return null }
+    },
     save: (tokens: Tokens) => {
         accessToken = tokens.access_token
+        try {
+            sessionStorage.setItem(ACCESS_KEY, tokens.access_token)
+            sessionStorage.setItem(ACCESS_EXPIRES_KEY, String(Date.now() + tokens.expires_in * 1000))
+        } catch { /* modo privado */ }
         try { localStorage.setItem(REFRESH_KEY, tokens.refresh_token) } catch { /* modo privado */ }
     },
     clear: () => {
         accessToken = null
+        try {
+            sessionStorage.removeItem(ACCESS_KEY)
+            sessionStorage.removeItem(ACCESS_EXPIRES_KEY)
+        } catch { /* modo privado */ }
         try { localStorage.removeItem(REFRESH_KEY) } catch { /* modo privado */ }
     },
 }
+
+accessToken = tokenStorage.getAccess()
 
 async function send<T>(method: string, path: string, body?: unknown, auth = false): Promise<T> {
     let response: Response

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { api, refreshTokens, tokenStorage, type User } from '../services/api'
+import { api, tokenStorage, type User } from '../services/api'
 
 interface AuthContextValue {
     user: User | null
@@ -19,8 +19,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         if (!tokenStorage.getRefresh()) return
-        refreshTokens()
-            .then(() => api.me())
+        api.me()
             .then(setUser)
             .catch(() => tokenStorage.clear())
             .finally(() => setLoading(false))
